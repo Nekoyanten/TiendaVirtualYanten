@@ -6,6 +6,9 @@ namespace TiendaVirtualYanten.Models
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+
+        // VALIDACIÓN 2: Correo obligatorio y con formato válido
+        [Required(ErrorMessage = "El correo electrónico es obligatorio")]
         public string Correo { get; set; }
         public string Rol { get; set; }
 
