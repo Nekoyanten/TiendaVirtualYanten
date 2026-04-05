@@ -1,35 +1,51 @@
-﻿@model List<TiendaVirtualYanten.Models.Producto>
+@model List<TiendaVirtualYanten.Models.Producto>
 
-<h2>Lista de Productos</h2>
+@{
+    ViewData["Title"] = "Productos";
+}
 
-<a class="btn btn-primary" href="/Producto/Create">Nuevo Producto</a>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Lista de Productos</h2>
+        <a class="btn btn-primary" asp-action="Create">Nuevo Producto</a>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Categoría</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
             <tr>
-                <td>@item.Nombre</td>
-                <td>@item.Precio</td>
-                <td>@item.Stock</td>
-                <td>@item.Categoria?.Nombre</td>
-
-                <td>
-                    <a href="/Producto/Edit/@item.Id">Editar</a>
-
-                    <a href="/Producto/Delete/@item.Id">Eliminar</a>
-                </td>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Categoría</th>
+                <th>Estado</th>
+                <th>Acciones</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Nombre</td>
+                    <td>$@item.Precio.ToString("N2")</td>
+                    <td>@item.Stock</td>
+                    <td>@item.Categoria?.Nombre</td>
+                    <td>
+                        @if (item.TieneStock())
+                        {
+                            <span class="badge bg-success">En stock</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Agotado</span>
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id"
+                           onclick="return confirm('¿Eliminar este producto?')">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

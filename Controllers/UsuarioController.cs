@@ -36,7 +36,7 @@ namespace TiendaVirtualYanten.Controllers
             }
             return View(usuario);
         }
-        
+
 
         public IActionResult Edit(int id)
         {
@@ -54,6 +54,7 @@ namespace TiendaVirtualYanten.Controllers
         public IActionResult Delete(int id)
         {
             var usuario = _context.Usuarios.Find(id);
+            if (usuario == null) return RedirectToAction("Index");
             _context.Usuarios.Remove(usuario);
             _context.SaveChanges();
             return RedirectToAction("Index");

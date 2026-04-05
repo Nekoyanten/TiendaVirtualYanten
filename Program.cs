@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using TiendaVirtualYanten.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Registrar el DbContext con SQL Server
+builder.Services.AddDbContext<TiendaContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("TiendaConnection")));
 
 var app = builder.Build();
 
@@ -18,12 +25,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
+app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
 app.Run();

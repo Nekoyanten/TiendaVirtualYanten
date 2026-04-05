@@ -1,33 +1,49 @@
-﻿﻿List<TiendaVirtualYanten.Models.Categoria>
+@model List<TiendaVirtualYanten.Models.Categoria>
 
-<h2>Lista de Categorias</h2>
+@{
+    ViewData["Title"] = "Categorías";
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var categoria in Model)
-        {
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Lista de Categorías</h2>
+        <a class="btn btn-primary" asp-action="Create">Nueva Categoría</a>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
             <tr>
-                <td>@categoria.Id</td>
-                <td>@categoria.Nombre</td>
-                <td>@categoria.Descripcion</td>
-                <td>
-                    @if (categoria.Nombre != "")
-                    {
-                        <span class="text-success">Activa</span>
-                    }
-                    else
-                    {
-                        <span class="text-danger">Sin nombre</span>
-                    }
-                </td>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Acciones</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Descripcion</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.Nombre))
+                        {
+                            <span class="badge bg-success">Activa</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Sin nombre</span>
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id"
+                           onclick="return confirm('¿Eliminar esta categoría?')">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
