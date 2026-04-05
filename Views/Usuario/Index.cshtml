@@ -1,0 +1,30 @@
+﻿@model List<TiendaVirtualYanten.Models.Usuario>
+<h2>Lista de Usuarios</h2>
+<a class="btn btn-primary" href="/Usuario/Create">Nuevo Usuario</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Celular</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Nombre</td>
+                <td>@item.Correo</td>
+                <td>@item.Rol</td>
+                <td>@item.celular</td>
+                <td>
+                    <a href="/Usuario/Edit/@item.Id">Editar</a>
+                    <a href="/Usuario/Delete/@item.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

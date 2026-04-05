@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1 class="text-center" style="font-size: 60px; font-weight: bold; text-shadow: 2px 2px 8px rgba(0,0,0,0.4);">
+    TiendaVirtualYanten
+</h1>
+
+<div style="margin-top: 40px; display: flex; justify-content: center; gap: 40px;">
+
+    <a href="/Categoria" class="btn" style="background: #1579B3; color: white; font-size: 20px; padding: 15px 30px; border-radius: 10px; text-decoration: none; transition: transform 0.3s;">
+        Categoría
+    </a>
+
+    <a href="/Producto" class="btn" style="background: #14C7BB; color: black; font-size: 20px; padding: 15px 30px; border-radius: 10px; text-decoration: none; transition: transform 0.3s;">
+        Producto
+    </a>
+
+    <a href="/Usuario" class="btn" style="background: #7907A3; color: white; font-size: 20px; padding: 15px 30px; border-radius: 10px; text-decoration: none; transition: transform 0.3s;">
+        Usuario
+    </a>
+
+</div>
+
+<script>
+    const botones = document.querySelectorAll('.btn');
+
+    botones.forEach(btn => {
+        btn.addEventListener('mouseover', () => {
+            btn.style.transform = 'scale(1.1)';
+        });
+
+        btn.addEventListener('mouseout', () => {
+            btn.style.transform = 'scale(1)';
+        });
+    });
+</script>

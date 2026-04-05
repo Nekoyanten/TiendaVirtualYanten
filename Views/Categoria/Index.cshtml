@@ -1,0 +1,33 @@
+﻿﻿List<TiendaVirtualYanten.Models.Categoria>
+
+<h2>Lista de Categorias</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var categoria in Model)
+        {
+            <tr>
+                <td>@categoria.Id</td>
+                <td>@categoria.Nombre</td>
+                <td>@categoria.Descripcion</td>
+                <td>
+                    @if (categoria.Nombre != "")
+                    {
+                        <span class="text-success">Activa</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Sin nombre</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
