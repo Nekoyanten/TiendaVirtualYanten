@@ -13,5 +13,6 @@ namespace TiendaVirtualYanten.Data
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Rol> Roles { get; set; }
     }
 }

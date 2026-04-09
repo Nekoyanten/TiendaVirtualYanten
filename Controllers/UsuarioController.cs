@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TiendaVirtualYanten.Data;
 using TiendaVirtualYanten.Models;
@@ -16,12 +16,15 @@ namespace TiendaVirtualYanten.Controllers
 
         public IActionResult Index()
         {
-            var usuarios = _context.Usuarios.ToList();
+            var usuarios = _context.Usuarios
+                .Include(u => u.Rol)
+                .ToList();
             return View(usuarios);
         }
 
         public IActionResult Create()
         {
+            ViewBag.Roles = _context.Roles.ToList();
             return View();
         }
 
@@ -34,23 +37,31 @@ namespace TiendaVirtualYanten.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Roles = _context.Roles.ToList();
             return View(usuario);
         }
-
 
         public IActionResult Edit(int id)
         {
             var usuario = _context.Usuarios.Find(id);
+            if (usuario == null) return RedirectToAction("Index");
+            ViewBag.Roles = _context.Roles.ToList();
             return View(usuario);
         }
 
         [HttpPost]
         public IActionResult Edit(Usuario usuario)
         {
-            _context.Entry(usuario).State = EntityState.Modified;
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _context.Entry(usuario).State = EntityState.Modified;
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.Roles = _context.Roles.ToList();
+            return View(usuario);
         }
+
         public IActionResult Delete(int id)
         {
             var usuario = _context.Usuarios.Find(id);

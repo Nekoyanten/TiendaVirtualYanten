@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace TiendaVirtualYanten.Models
 {
@@ -6,30 +6,28 @@ namespace TiendaVirtualYanten.Models
     {
         public int Id { get; set; }
 
-        // VALIDACIÓN 1: Nombre obligatorio
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [StringLength(100, MinimumLength = 3,
             ErrorMessage = "El nombre debe tener entre 3 y 100 caracteres")]
         [Display(Name = "Nombre completo")]
         public string Nombre { get; set; } = string.Empty;
 
-        // VALIDACIÓN 2: Correo obligatorio y con formato válido
         [Required(ErrorMessage = "El correo electrónico es obligatorio")]
         [EmailAddress(ErrorMessage = "Ingrese un correo electrónico válido")]
         [Display(Name = "Correo electrónico")]
         public string Correo { get; set; } = string.Empty;
 
-        // VALIDACIÓN 3: Celular con números válidos
         [Required(ErrorMessage = "El número de celular es obligatorio")]
         [RegularExpression(@"^3\d{9}$",
-            ErrorMessage = "El celular debe tener 10 dígitos y no puede comenzar con 0")]
+            ErrorMessage = "El celular debe tener 10 dígitos y empezar por 3")]
         [Display(Name = "Número de celular")]
         public string Celular { get; set; } = string.Empty;
 
-        // Campo Rol existente
-        [Required(ErrorMessage = "El rol es obligatorio")]
-        [StringLength(20)]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar un rol")]
         [Display(Name = "Rol")]
-        public string Rol { get; set; } = string.Empty;
+        public int RolId { get; set; }
+
+        // Navegación
+        public Rol? Rol { get; set; }
     }
 }
