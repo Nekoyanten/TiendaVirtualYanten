@@ -35,6 +35,12 @@
                 </div>
 
                 <div class="mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
                     <label asp-for="RolId" class="form-label">Rol</label>
                     <select asp-for="RolId" class="form-control">
                         <option value="">-- Seleccione un rol --</option>
@@ -46,10 +52,8 @@
                     <span asp-validation-for="RolId" class="text-danger"></span>
                 </div>
 
-                <button type="button" class="btn btn-outline-primary">Actualizar</button>
-                <a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
-
-
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+                <a asp-action="Index" class="btn btn-secondary">Volver</a>
             </form>
         </div>
     </div>

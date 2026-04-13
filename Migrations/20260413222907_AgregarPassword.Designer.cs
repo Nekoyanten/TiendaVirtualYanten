@@ -11,8 +11,8 @@ using TiendaVirtualYanten.Data;
 namespace TiendaVirtualYanten.Migrations
 {
     [DbContext(typeof(TiendaContext))]
-    [Migration("20260409202007_AgregarRoles")]
-    partial class AgregarRoles
+    [Migration("20260413222907_AgregarPassword")]
+    partial class AgregarPassword
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,6 +114,11 @@ namespace TiendaVirtualYanten.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");

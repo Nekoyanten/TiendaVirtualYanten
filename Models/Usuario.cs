@@ -23,6 +23,12 @@ namespace TiendaVirtualYanten.Models
         [Display(Name = "Número de celular")]
         public string Celular { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "La contraseña es obligatoria")]
+        [StringLength(100, MinimumLength = 6,
+            ErrorMessage = "La contraseña debe tener mínimo 6 caracteres")]
+        [Display(Name = "Contraseña")]
+        public string Password { get; set; } = string.Empty;
+
         [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar un rol")]
         [Display(Name = "Rol")]
         public int RolId { get; set; }
