@@ -2,15 +2,19 @@
 
 @{
     ViewData["Title"] = "Usuarios";
+    var puedeCrear = ViewBag.PuedeCrear as bool? ?? false;
+    var puedeEditar = ViewBag.PuedeEditar as bool? ?? false;
+    var puedeEliminar = ViewBag.PuedeEliminar as bool? ?? false;
 }
 
 <div class="container mt-4">
-    <h2 class="mb-2">Usuarios</h2>
-    <a asp-action="Create" class="btn btn-success mb-4">
-        <i class="bi bi-person-plus-fill"></i> Nuevo Usuario
-    </a>
-
-
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Lista de Usuarios</h2>
+        @if (puedeCrear)
+        {
+            <a class="btn btn-primary" asp-action="Create">Nuevo Usuario</a>
+        }
+    </div>
 
     <table class="table table-striped table-bordered">
         <thead class="table-dark">
@@ -19,7 +23,10 @@
                 <th>Correo</th>
                 <th>Celular</th>
                 <th>Rol</th>
-                <th>Acciones</th>
+                @if (puedeEditar || puedeEliminar)
+                {
+                    <th>Acciones</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -30,11 +37,20 @@
                     <td>@item.Correo</td>
                     <td>@item.Celular</td>
                     <td><span class="badge bg-secondary">@item.Rol?.Nombre</span></td>
-                    <td>
-                        <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id"
-                           onclick="return confirm('¿Eliminar este usuario?')">Eliminar</a>
-                    </td>
+                    @if (puedeEditar || puedeEliminar)
+                    {
+                        <td>
+                            @if (puedeEditar)
+                            {
+                                <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                            }
+                            @if (puedeEliminar)
+                            {
+                                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id"
+                                   onclick="return confirm('¿Eliminar este usuario?')">Eliminar</a>
+                            }
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

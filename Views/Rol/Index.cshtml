@@ -27,6 +27,7 @@
                     <td><span class="badge bg-secondary">@item.Nombre</span></td>
                     <td>@item.Descripcion</td>
                     <td>
+                        <a class="btn btn-sm btn-info text-white" asp-action="Permisos" asp-route-id="@item.Id">Permisos</a>
                         <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
                         <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id"
                            onclick="return confirm('¿Eliminar este rol?')">Eliminar</a>

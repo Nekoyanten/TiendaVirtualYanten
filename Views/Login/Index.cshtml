@@ -14,50 +14,74 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <style>
         body {
-            background-color: #f0f2f5;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
         .login-card {
-            max-width: 420px;
-            margin: 100px auto;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
         }
         .login-header {
-            background-color: #0d6efd;
+            background: #0d6efd;
             color: white;
-            border-radius: 12px 12px 0 0;
-            padding: 24px;
+            border-radius: 15px 15px 0 0;
+            padding: 30px;
             text-align: center;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #0d6efd;
+        }
+        .btn-primary {
+            padding: 12px;
+            font-weight: 600;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
     <div class="login-card card">
         <div class="login-header">
-            <h4 class="mb-0">🛒 TiendaVirtualYanten</h4>
-            <small>Iniciar sesión</small>
+            <h3 class="mb-0 fw-bold">🛒 TiendaYanten</h3>
+            <p class="mb-0 opacity-75">Bienvenido de nuevo</p>
         </div>
         <div class="card-body p-4">
 
             <form asp-action="Index" method="post">
-
-                <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+                
+                @* SOLUCIÓN: Solo muestra la alerta si hay errores reales *@
+                @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+                {
+                    <div asp-validation-summary="All" class="alert alert-danger py-2 small" role="alert"></div>
+                }
 
                 <div class="mb-3">
-                    <label asp-for="Correo" class="form-label"></label>
-                    <input asp-for="Correo" class="form-control" placeholder="correo@ejemplo.com" />
-                    <span asp-validation-for="Correo" class="text-danger"></span>
+                    <label asp-for="Correo" class="form-label text-secondary small fw-bold">Correo Electrónico</label>
+                    <input asp-for="Correo" class="form-control" placeholder="nombre@correo.com" autocomplete="email" />
+                    <span asp-validation-for="Correo" class="text-danger small"></span>
                 </div>
 
                 <div class="mb-4">
-                    <label asp-for="Password" class="form-label"></label>
-                    <input asp-for="Password" class="form-control" type="password" placeholder="••••••" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <label asp-for="Password" class="form-label text-secondary small fw-bold">Contraseña</label>
+                    <input asp-for="Password" class="form-control" type="password" placeholder="••••••••" />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+                <button type="submit" class="btn btn-primary w-100 shadow-sm">
+                    Iniciar Sesión
+                </button>
             </form>
 
+            <div class="text-center mt-4">
+                <a href="#" class="text-decoration-none small text-muted">¿Olvidaste tu contraseña?</a>
+            </div>
         </div>
     </div>
 

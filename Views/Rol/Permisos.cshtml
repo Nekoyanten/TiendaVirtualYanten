@@ -1,0 +1,64 @@
+@model TiendaVirtualYanten.Models.AsignarPermisosViewModel
+
+@{
+    ViewData["Title"] = "Permisos del Rol";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2>Permisos del rol: <span class="badge bg-primary">@Model.RolNombre</span></h2>
+            <small class="text-muted">Marca las acciones que puede realizar este rol en cada módulo</small>
+        </div>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    </div>
+
+    <form asp-action="Permisos" asp-route-id="@Model.RolId" method="post">
+
+        <div class="card">
+            <div class="card-body p-0">
+                <table class="table table-bordered mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="ps-3">Módulo</th>
+                            @foreach (var accion in Model.Acciones)
+                            {
+                                <th class="text-center">@accion</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var modulo in Model.Modulos)
+                        {
+                            <tr>
+                                <td class="ps-3 fw-bold align-middle">@modulo</td>
+                                @foreach (var accion in Model.Acciones)
+                                {
+                                    var permiso = Model.Permisos
+                                        .FirstOrDefault(p => p.Modulo == modulo && p.Accion == accion);
+                                    <td class="text-center align-middle">
+                                        @if (permiso != null)
+                                        {
+                                            <input type="checkbox"
+                                                   name="permisosSeleccionados"
+                                                   value="@permiso.PermisoId"
+                                                   class="form-check-input"
+                                                   style="width:20px;height:20px;"
+                                                   @(permiso.Asignado ? "checked" : "") />
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-success">Guardar permisos</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+
+    </form>
+</div>

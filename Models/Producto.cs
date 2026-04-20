@@ -13,7 +13,7 @@ namespace TiendaVirtualYanten.Models
         [Range(0.01, 1000000, ErrorMessage = "El precio debe ser mayor a 0")]
         public double Precio { get; set; }
 
-        [Range(0, 100, ErrorMessage = "El stock debe estar entre 0 y 100")]
+        [Range(0, 1000, ErrorMessage = "El stock debe estar entre 0 y 100")]
         public int Stock { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar una categoría")]
