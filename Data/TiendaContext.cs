@@ -21,7 +21,7 @@ namespace TiendaVirtualYanten.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Seed de permisos base al crear la BD
+            // Seed de permisos (4 módulos x 4 acciones = 16)
             var modulos = new[] { "Producto", "Categoria", "Usuario", "Rol" };
             var acciones = new[] { "Ver", "Crear", "Editar", "Eliminar" };
 

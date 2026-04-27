@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TiendaVirtualYanten.Data;
+using TiendaVirtualYanten.Helpers;
 using TiendaVirtualYanten.Models;
 
 namespace TiendaVirtualYanten.Controllers
@@ -16,7 +17,6 @@ namespace TiendaVirtualYanten.Controllers
 
         public IActionResult Index()
         {
-            // Si ya tiene sesión activa, redirige al home
             if (HttpContext.Session.GetString("UsuarioNombre") != null)
                 return RedirectToAction("Index", "Home");
 
@@ -29,9 +29,11 @@ namespace TiendaVirtualYanten.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
+            var passwordHash = HashHelper.GetSha256(model.Password);
+
             var usuario = _context.Usuarios
                 .Include(u => u.Rol)
-                .FirstOrDefault(u => u.Correo == model.Correo && u.Password == model.Password);
+                .FirstOrDefault(u => u.Correo == model.Correo && u.Password == passwordHash);
 
             if (usuario == null)
             {
@@ -39,7 +41,6 @@ namespace TiendaVirtualYanten.Controllers
                 return View(model);
             }
 
-            // Guardar datos en sesión
             HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
             HttpContext.Session.SetString("UsuarioNombre", usuario.Nombre);
             HttpContext.Session.SetString("UsuarioRol", usuario.Rol?.Nombre ?? "");
