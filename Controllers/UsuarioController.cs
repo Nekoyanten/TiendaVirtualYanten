@@ -44,9 +44,10 @@ namespace TiendaVirtualYanten.Controllers
         [HttpPost]
         public IActionResult Create(Usuario usuario)
         {
+            // 1. Verificación de permisos
             if (!_permisos.Tiene("Usuario", "Crear"))
                 return RedirectToAction("Denegado", "Home");
-
+            // 2. Proceso de guardado
             if (ModelState.IsValid)
             {
                 usuario.Password = HashHelper.GetSha256(usuario.Password);
@@ -54,6 +55,7 @@ namespace TiendaVirtualYanten.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
+            // 3. Si llegamos aquí, algo falló. 
             ViewBag.Roles = _context.Roles.ToList();
             return View(usuario);
         }
