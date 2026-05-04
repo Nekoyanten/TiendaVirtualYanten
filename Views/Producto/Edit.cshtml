@@ -7,12 +7,11 @@
 <div class="container mt-4">
     <h2>Editar Producto</h2>
     <hr />
-
     <div class="row">
-        <div class="col-md-5">
-            <form asp-action="Edit" method="post">
-
+        <div class="col-md-6">
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ImagenUrl" />
 
                 <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
@@ -21,19 +20,21 @@
                     <input asp-for="Nombre" class="form-control" />
                     <span asp-validation-for="Nombre" class="text-danger"></span>
                 </div>
-
+                <div class="mb-3">
+                    <label asp-for="Descripcion" class="form-label"></label>
+                    <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                </div>
                 <div class="mb-3">
                     <label asp-for="Precio" class="form-label"></label>
                     <input asp-for="Precio" class="form-control" type="number" step="0.01" />
                     <span asp-validation-for="Precio" class="text-danger"></span>
                 </div>
-
                 <div class="mb-3">
                     <label asp-for="Stock" class="form-label"></label>
                     <input asp-for="Stock" class="form-control" type="number" />
                     <span asp-validation-for="Stock" class="text-danger"></span>
                 </div>
-
                 <div class="mb-3">
                     <label asp-for="CategoriaId" class="form-label">Categoría</label>
                     <select asp-for="CategoriaId" class="form-control">
@@ -45,6 +46,23 @@
                     </select>
                     <span asp-validation-for="CategoriaId" class="text-danger"></span>
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">Imagen actual</label><br />
+                    @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+                    {
+                        <img src="@Model.ImagenUrl" class="img-thumbnail mb-2"
+                             style="max-height:120px;" alt="Imagen actual" />
+                    }
+                    else
+                    {
+                        <span class="text-muted small">Sin imagen</span>
+                    }
+                    <label asp-for="ImagenFile" class="form-label mt-2 d-block">Cambiar imagen (opcional)</label>
+                    <input asp-for="ImagenFile" class="form-control" type="file"
+                           accept="image/*" onchange="previewImagen(event)" />
+                    <img id="preview" src="#" alt="Vista previa"
+                         class="img-thumbnail mt-2 d-none" style="max-height:120px;" />
+                </div>
 
                 <button type="submit" class="btn btn-primary">Actualizar</button>
                 <a asp-action="Index" class="btn btn-secondary">Volver</a>
@@ -55,4 +73,11 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        function previewImagen(event) {
+            const img = document.getElementById('preview');
+            img.src = URL.createObjectURL(event.target.files[0]);
+            img.classList.remove('d-none');
+        }
+    </script>
 }

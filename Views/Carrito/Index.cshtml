@@ -1,0 +1,132 @@
+@model TiendaVirtualYanten.Models.CarritoViewModel
+
+@{
+    ViewData["Title"] = "Mi Carrito";
+}
+
+<div class="container mt-4">
+    <h2>🛒 Mi Carrito</h2>
+    <hr />
+
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["Mensaje"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (!Model.Items.Any())
+    {
+        <div class="text-center py-5">
+            <span style="font-size:4rem;">🛒</span>
+            <h4 class="text-muted mt-3">Tu carrito está vacío</h4>
+            <a asp-controller="Producto" asp-action="Tienda" class="btn btn-primary mt-2">
+                Ir a la tienda
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-0">
+                        <table class="table align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Producto</th>
+                                    <th class="text-center">Precio</th>
+                                    <th class="text-center">Cantidad</th>
+                                    <th class="text-center">Subtotal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-3">
+                                                @if (!string.IsNullOrEmpty(item.ImagenUrl))
+                                                {
+                                                    <img src="@item.ImagenUrl"
+                                                         style="width:60px;height:60px;object-fit:cover;border-radius:8px;"
+                                                         alt="@item.Nombre" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="bg-light d-flex align-items-center justify-content-center"
+                                                         style="width:60px;height:60px;border-radius:8px;font-size:1.5rem;">
+                                                        🛍️
+                                                    </div>
+                                                }
+                                                <span class="fw-bold">@item.Nombre</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">$@item.Precio.ToString("N2")</td>
+                                        <td class="text-center" style="min-width:140px;">
+                                            <form asp-action="ActualizarCantidad" method="post" class="d-flex align-items-center justify-content-center gap-1">
+                                                <input type="hidden" name="productoId" value="@item.ProductoId" />
+                                                <input type="number" name="cantidad" value="@item.Cantidad"
+                                                       min="1" max="999" class="form-control form-control-sm text-center"
+                                                       style="width:70px;" />
+                                                <button type="submit" class="btn btn-outline-secondary btn-sm">✔</button>
+                                            </form>
+                                        </td>
+                                        <td class="text-center fw-bold text-primary">$@item.Subtotal.ToString("N2")</td>
+                                        <td class="text-center">
+                                            <form asp-action="Quitar" method="post">
+                                                <input type="hidden" name="productoId" value="@item.ProductoId" />
+                                                <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                        onclick="return confirm('¿Quitar este producto?')">✕</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-3">
+                    <a asp-controller="Producto" asp-action="Tienda" class="btn btn-outline-secondary">
+                        ← Seguir comprando
+                    </a>
+                    <form asp-action="Vaciar" method="post">
+                        <button type="submit" class="btn btn-outline-danger"
+                                onclick="return confirm('¿Vaciar el carrito?')">
+                            🗑 Vaciar carrito
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-primary text-white fw-bold">
+                        Resumen del pedido
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Productos (@Model.TotalItems)</span>
+                            <span>$@Model.Total.ToString("N2")</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Envío</span>
+                            <span class="text-success">Gratis</span>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between fw-bold fs-5">
+                            <span>Total</span>
+                            <span class="text-primary">$@Model.Total.ToString("N2")</span>
+                        </div>
+                        <button class="btn btn-success w-100 mt-3" onclick="alert('Funcionalidad de pago próximamente')">
+                            💳 Finalizar compra
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -11,26 +11,44 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">🛒 TiendaYanten</a>
+                <a class="navbar-brand fw-bold" asp-controller="Producto" asp-action="Tienda">🛒 TiendaYanten</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Producto" asp-action="Tienda">Tienda</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-white" asp-controller="Categoria" asp-action="Index">Categorías</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Producto" asp-action="Index">Productos</a>
+                            <a class="nav-link text-white" asp-controller="Producto" asp-action="Index">Admin Productos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-controller="Usuario" asp-action="Index">Usuarios</a>
                         </li>
-                        <li class="nav-item"> 
+                        <li class="nav-item">
                             <a class="nav-link text-white" asp-controller="Rol" asp-action="Index">Roles</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav align-items-center">
+                        @{
+                            var carritoCount = 0;
+                            try { carritoCount = (int)(ViewBag.CarritoCount ?? 0); } catch { }
+                        }
+                        <li class="nav-item me-2">
+                            <a class="nav-link text-white position-relative" asp-controller="Carrito" asp-action="Index">
+                                🛒
+                                @if (carritoCount > 0)
+                                {
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        @carritoCount
+                                    </span>
+                                }
+                            </a>
+                        </li>
                         @if (Context.Session.GetString("UsuarioNombre") != null)
                         {
                             <li class="nav-item">
@@ -49,7 +67,7 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container-fluid px-4">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -64,10 +82,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
-
 </body>
 </html>

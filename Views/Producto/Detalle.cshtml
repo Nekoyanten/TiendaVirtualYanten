@@ -1,0 +1,90 @@
+@model TiendaVirtualYanten.Models.Producto
+
+
+@{
+    ViewData["Title"] = @Model.Nombre;
+}
+
+<div class="container mt-4">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Tienda">Tienda</a></li>
+            <li class="breadcrumb-item active">@Model.Nombre</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <div class="col-md-5">
+            @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+            {
+                <img src="@Model.ImagenUrl" class="img-fluid rounded shadow"
+                     style="width:100%;max-height:400px;object-fit:cover;" alt="@Model.Nombre" />
+            }
+            else
+            {
+                <div class="bg-light rounded d-flex align-items-center justify-content-center shadow"
+                     style="height:350px;">
+                    <span style="font-size:5rem;">🛍️</span>
+                </div>
+            }
+        </div>
+
+        <div class="col-md-7">
+            <span class="badge bg-secondary mb-2">@Model.Categoria?.Nombre</span>
+            <h2 class="fw-bold">@Model.Nombre</h2>
+
+            <h3 class="text-primary fw-bold my-3">$@Model.Precio.ToString("N2")</h3>
+
+            @if (!string.IsNullOrEmpty(Model.Descripcion))
+            {
+                <p class="text-muted">@Model.Descripcion</p>
+                <hr />
+            }
+
+            <table class="table table-sm table-bordered mb-4" style="max-width:320px;">
+                <tr>
+                    <th class="bg-light">Disponibilidad</th>
+                    <td>
+                        @if (Model.TieneStock())
+                        {
+                            <span class="badge bg-success">En stock</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Agotado</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Stock</th>
+                    <td>@Model.Stock unidades</td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Categoría</th>
+                    <td>@Model.Categoria?.Nombre</td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Valor inventario</th>
+                    <td>$@Model.CalcularValorInventario().ToString("N2")</td>
+                </tr>
+            </table>
+
+            @if (Model.TieneStock())
+            {
+                <form asp-controller="Carrito" asp-action="Agregar" method="post" class="d-flex gap-2 align-items-center">
+                    <input type="hidden" name="productoId" value="@Model.Id" />
+                    <div class="input-group" style="max-width:130px;">
+                        <span class="input-group-text">Cant.</span>
+                        <input type="number" name="cantidad" value="1" min="1" max="@Model.Stock"
+                               class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        🛒 Agregar al carrito
+                    </button>
+                </form>
+            }
+
+            <a asp-action="Tienda" class="btn btn-outline-secondary mt-3">← Volver a la tienda</a>
+        </div>
+    </div>
+</div>
